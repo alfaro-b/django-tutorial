@@ -53,3 +53,17 @@ class AllQuestionsView(generic.ListView):
     model = Question
     template_name = "polls/all.html"
     context_object_name = "all_questions"
+
+
+class FrequencyView(generic.DetailView):
+    model = Question
+    template_name = "polls/frequency.html"
+
+    def get_context_data(self, **kwargs):
+        # Récupère le contexte initial de la vue
+        context = super().get_context_data(**kwargs)
+
+        # Ajoute les résultats du sondage au contexte
+        context["choices_frequency"] = self.object.get_choices()
+
+        return context
