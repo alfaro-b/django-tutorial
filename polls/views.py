@@ -71,10 +71,8 @@ class FrequencyView(generic.DetailView):
         return context
 
 
-class StatisticsView(generic.ListView):
-    model = Question
+class StatisticsView(generic.TemplateView):
     template_name = "polls/statistics.html"
-    context_object_name = "all_questions"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
