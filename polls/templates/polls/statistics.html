@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+
+    <h1>Tous les sondages</h1>
+    <ul>
+        <li>Nombre total des sondages : {{ total_questions }}</li>
+        <li>Nombre total de choix : {{ total_choices }}</li>
+        <li>Nombre total de votes : {{ total_votes }}</li>
+        <li>Moyenne de votes par sondage : {{ moyenne_votes_sondage|floatformat:2 }}</li>
+
+    </ul>
 </body>
 </html>

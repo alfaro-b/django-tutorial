@@ -1,4 +1,6 @@
-from django.db.models import F
+from multiprocessing import context
+
+from django.db.models import F, Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -65,5 +67,29 @@ class FrequencyView(generic.DetailView):
 
         # Ajoute les résultats du sondage au contexte
         context["choices_frequency"] = self.object.get_choices()
+
+        return context
+
+
+class StatisticsView(generic.ListView):
+    model = Question
+    template_name = "polls/statistics.html"
+    context_object_name = "all_questions"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Nombre total de sondages
+        context["total_questions"] = Question.objects.count()
+
+        # Nombre total de choix
+        context["total_choices"] = Choice.objects.count()
+
+        # Nombre total de votes
+        resultat = Choice.objects.aggregate(total=Sum('votes'))
+        context['total_votes'] = resultat['total']
+
+        # Moyenne du nombre de votes par sondage
+        context['moyenne_votes_sondage'] = context["total_votes"] / context["total_questions"]
 
         return context
