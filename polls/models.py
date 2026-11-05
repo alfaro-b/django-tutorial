@@ -3,6 +3,8 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.db.models import Sum
+from django.contrib import admin
+
 
 MAX_LENGTH = 20
 
@@ -21,6 +23,11 @@ class Question(models.Model):
     def __repr__(self):
         return "<Question: {}>".format(self.question_text)
 
+    @admin.display(
+        boolean=True,
+        ordering="pub_date",
+        description="Published recently?",
+    )
     def was_published_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
