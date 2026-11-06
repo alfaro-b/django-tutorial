@@ -12,5 +12,20 @@
         <input type="text" name="question_text" id="question_text">
     </fieldset>
 
+    <fieldset>
+        <legend>Choix possibles</legend>
+
+        {% for no_choix in liste_no_choix %}
+            <p>
+                <label for="choix_{{ no_choix }}">
+                    Choix n°{{ forloop.counter }} :
+                </label>
+                <input type="text"
+                       name="choix_{{ no_choix }}"
+                       id="choix_{{ no_choix }}">
+            </p>
+        {% endfor %}
+    </fieldset>
+
     <input type="submit" value="Ajouter">
 </form>

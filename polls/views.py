@@ -10,6 +10,8 @@ from .utils import minimax
 
 from .models import Choice, Question
 
+NB_MAX_CHOIX = 5
+
 
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
@@ -123,20 +125,36 @@ class StatisticsView(generic.TemplateView):
 
 
 def add(request):
-    return render(request, 'polls/add.html')
+    return render(request, 'polls/add.html', {
+        'liste_no_choix': range(NB_MAX_CHOIX)
+    })
 
 
 def confirm_add(request):
-    # Récupération du texte sans les espaces avant et après
+    # Récupération du libellé de la question, sans les espaces avant et après
     question_text = request.POST['question_text'].strip()
 
     if question_text:
-        # Enregistrement de la nouvelle question
+        # Enregistrement de la question
         question = Question(
             question_text=question_text,
             pub_date=timezone.now()
         )
         question.save()
+
+        # Enregistrement des choix, jusqu'au premier champ vide
+        for no_choix in range(NB_MAX_CHOIX):
+            nom_champ = 'choix_{}'.format(no_choix)
+            choice_text = request.POST[nom_champ].strip()
+
+            if choice_text:
+                choice = Choice(
+                    question=question,
+                    choice_text=choice_text
+                )
+                choice.save()
+            else:
+                break
 
         return render(request, 'polls/confirm_add.html')
 
@@ -144,4 +162,5 @@ def confirm_add(request):
         # Réaffichage du formulaire avec un message d'erreur
         return render(request, 'polls/add.html', {
             'error_message': "Vous devez saisir une question.",
+            'liste_no_choix': range(NB_MAX_CHOIX),
         })
