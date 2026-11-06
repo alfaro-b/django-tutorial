@@ -12,7 +12,9 @@
         <li>Nombre total de choix : {{ total_choices }}</li>
         <li>Nombre total de votes : {{ total_votes }}</li>
         <li>Moyenne de votes par sondage : {{ moyenne_votes_sondage|floatformat:2 }}</li>
-
+        <li>Question la plus populaire : {{ most_popular_question.question_text }} ({{ most_popular_votes }} votes)</li>
+        <li>Question la moins populaire : {{ least_popular_question.question_text }} ({{ least_popular_votes }} votes)</li>
+        <li>Dernière question enregistrée : {{ latest_question.question_text }}</li>
     </ul>
 </body>
 </html>

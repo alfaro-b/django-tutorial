@@ -1,11 +1,12 @@
 from multiprocessing import context
 
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Max
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from .utils import minimax
 
 from .models import Choice, Question
 
@@ -101,5 +102,21 @@ class StatisticsView(generic.TemplateView):
 
         # Moyenne du nombre de votes par sondage
         context['moyenne_votes_sondage'] = context["total_votes"] / context["total_questions"]
+
+        # Questions les moins et les plus populaires
+        (context["least_popular_question"], context["most_popular_question"]) = minimax()
+
+        # Nombre de votes des questions les plus et les moins populaires
+        context["most_popular_votes"] = (
+                context["most_popular_question"].choice_set.aggregate(total=Sum("votes"))["total"] or 0
+        )
+
+        context["least_popular_votes"] = (
+                context["least_popular_question"].choice_set.aggregate(total=Sum("votes"))["total"] or 0
+        )
+
+        # Dernière question enregistrée
+        latest_question_id = Question.objects.aggregate(max=Max('id'))['max']
+        context["latest_question"] = Question.objects.get(pk=latest_question_id)
 
         return context
