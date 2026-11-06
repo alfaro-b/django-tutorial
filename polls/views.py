@@ -120,3 +120,28 @@ class StatisticsView(generic.TemplateView):
         context["latest_question"] = Question.objects.get(pk=latest_question_id)
 
         return context
+
+
+def add(request):
+    return render(request, 'polls/add.html')
+
+
+def confirm_add(request):
+    # Récupération du texte sans les espaces avant et après
+    question_text = request.POST['question_text'].strip()
+
+    if question_text:
+        # Enregistrement de la nouvelle question
+        question = Question(
+            question_text=question_text,
+            pub_date=timezone.now()
+        )
+        question.save()
+
+        return render(request, 'polls/confirm_add.html')
+
+    else:
+        # Réaffichage du formulaire avec un message d'erreur
+        return render(request, 'polls/add.html', {
+            'error_message': "Vous devez saisir une question.",
+        })

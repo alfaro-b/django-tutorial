@@ -12,4 +12,6 @@ urlpatterns = [
     path("<int:question_id>/vote/", views.vote, name="vote"),
     path("<int:pk>/frequency/", views.FrequencyView.as_view(), name="frequency"),
     path("statistics/", views.StatisticsView.as_view(), name="statistics"),
+    path("add/", views.add, name="add"),
+    path("confirm_add/", views.confirm_add, name="confirm_add"),
 ]

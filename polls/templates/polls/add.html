@@ -1,0 +1,16 @@
+<h1>Ajouter une question</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url 'polls:confirm_add' %}" method="post">
+    {% csrf_token %}
+
+    <fieldset>
+        <label for="question_text">Question :</label>
+        <input type="text" name="question_text" id="question_text">
+    </fieldset>
+
+    <input type="submit" value="Ajouter">
+</form>
