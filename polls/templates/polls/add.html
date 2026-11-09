@@ -1,35 +1,50 @@
-<h1>Ajouter une question</h1>
+{% extends "base.html" %}
+{% load static %}
 
-<form action="{% url 'polls:add' %}" method="post">
-    {% csrf_token %}
+{% block title %}
+    Ajouter une question
+{% endblock %}
 
-    {{ form.non_field_errors }}
+{# Remplace le bandeau du gabarit parent par celui du formulaire d'ajout #}
+{% block header %}
+    <img src="{% static 'polls/images/add_question.png' %}"
+         alt="Bandeau d'ajout d'une question"
+         class="banner">
+{% endblock %}
 
-    <fieldset>
-        <legend>Question</legend>
+{# Contenu propre à la page d'ajout d'une question #}
+{% block main %}
+    <h1>Ajouter une question</h1>
 
-        {# Affichage du champ de question et de ses erreurs #}
-        <p>
-            {{ form.question_text.label_tag }}
-            {{ form.question_text }}
-            {{ form.question_text.errors }}
-        </p>
-    </fieldset>
+    <form action="{% url 'polls:add' %}" method="post">
+        {% csrf_token %}
 
-    <fieldset>
-        <legend>Choix possibles</legend>
+        {{ form.non_field_errors }}
 
-        {# Parcours des champs du formulaire, sauf celui de la question #}
-        {% for field in form %}
-            {% if field.name != "question_text" %}
-                <p>
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {{ field.errors }}
-                </p>
-            {% endif %}
-        {% endfor %}
-    </fieldset>
+        <fieldset>
+            <legend>Question</legend>
 
-    <input type="submit" value="Ajouter">
-</form>
+            <p>
+                {{ form.question_text.label_tag }}
+                {{ form.question_text }}
+                {{ form.question_text.errors }}
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Choix possibles</legend>
+
+            {% for field in form %}
+                {% if field.name != "question_text" %}
+                    <p>
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {{ field.errors }}
+                    </p>
+                {% endif %}
+            {% endfor %}
+        </fieldset>
+
+        <input type="submit" value="Ajouter">
+    </form>
+{% endblock %}

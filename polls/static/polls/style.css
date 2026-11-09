@@ -1,7 +1,32 @@
+/* Fond de la page */
 body {
+    margin: 0;
     background: white url("images/background.png") no-repeat;
+    background-size: cover;
+    min-height: 100vh;
 }
 
+/* Liens */
 li a {
     color: green;
+}
+
+/* Bandeau */
+header {
+    width: 100%;
+    overflow: hidden;
+}
+
+.banner {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Contenu principal */
+main {
+    margin: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 8px;
 }

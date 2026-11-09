@@ -1,17 +1,24 @@
+{% extends "base.html" %}
 
-{% load static %}
+{% block title %}
+    Liste des sondages
+{% endblock %}
 
-<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+{% block main %}
 
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-        Publié le {{ question.pub_date|date:"d/m/Y"}}
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+    {% if latest_question_list %}
+        <ul>
+            {% for question in latest_question_list %}
+                <li>
+                    <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+                    Publié le {{ question.pub_date|date:"d/m/Y"}}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun sondage disponible.</p>
+    {% endif %}
 
-<a href="{% url 'polls:add' %}">Ajouter une question</a>
+    <a href="{% url 'polls:add' %}">Ajouter une question</a>
+
+{% endblock %}

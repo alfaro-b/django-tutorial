@@ -1,0 +1,27 @@
+<!-- Gabarit parent : définit la structure HTML commune à toutes les pages -->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{% block title %}Sondages{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
+
+<body>
+    <!-- Bandeau commun, personnalisable dans les gabarits enfants -->
+    <header>
+        {% block header %}
+            <img src="{% static 'polls/images/banner.png' %}" alt="Bandeau des sondages" class="banner">
+        {% endblock %}
+    </header>
+    <!-- Contenu spécifique à chaque page -->
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+</body>
+
+</html>

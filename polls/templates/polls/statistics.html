@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}
+    Statistiques des sondages
+{% endblock %}
+
+{% block main %}
 
     <h1>Tous les sondages</h1>
     <ul>
@@ -16,5 +16,4 @@
         <li>Question la moins populaire : {{ least_popular_question.question_text }} ({{ least_popular_votes }} votes)</li>
         <li>Dernière question enregistrée : {{ latest_question.question_text }}</li>
     </ul>
-</body>
-</html>
+{% endblock %}
