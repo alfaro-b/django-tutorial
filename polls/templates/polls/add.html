@@ -1,29 +1,33 @@
 <h1>Ajouter une question</h1>
 
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
-
-<form action="{% url 'polls:confirm_add' %}" method="post">
+<form action="{% url 'polls:add' %}" method="post">
     {% csrf_token %}
 
+    {{ form.non_field_errors }}
+
     <fieldset>
-        <label for="question_text">Question :</label>
-        <input type="text" name="question_text" id="question_text">
+        <legend>Question</legend>
+
+        {# Affichage du champ de question et de ses erreurs #}
+        <p>
+            {{ form.question_text.label_tag }}
+            {{ form.question_text }}
+            {{ form.question_text.errors }}
+        </p>
     </fieldset>
 
     <fieldset>
         <legend>Choix possibles</legend>
 
-        {% for no_choix in liste_no_choix %}
-            <p>
-                <label for="choix_{{ no_choix }}">
-                    Choix n°{{ forloop.counter }} :
-                </label>
-                <input type="text"
-                       name="choix_{{ no_choix }}"
-                       id="choix_{{ no_choix }}">
-            </p>
+        {# Parcours des champs du formulaire, sauf celui de la question #}
+        {% for field in form %}
+            {% if field.name != "question_text" %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </p>
+            {% endif %}
         {% endfor %}
     </fieldset>
 

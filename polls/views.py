@@ -2,11 +2,12 @@ from multiprocessing import context
 
 from django.db.models import F, Sum, Max
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from .utils import minimax
+from .forms import QuestionForm
 
 from .models import Choice, Question
 
@@ -125,42 +126,42 @@ class StatisticsView(generic.TemplateView):
 
 
 def add(request):
-    return render(request, 'polls/add.html', {
-        'liste_no_choix': range(NB_MAX_CHOIX)
-    })
+    if request.method == "POST":
+        # Formulaire lié aux données envoyées par l'utilisateur
+        form = QuestionForm(request.POST)
+
+        if form.is_valid():
+            # Récupération des données validées et enregistrement de la question
+            question = Question(
+                question_text=form.cleaned_data["question_text"],
+                pub_date=timezone.now()
+            )
+            question.save()
+
+            # Enregistrement des choix jusqu'au premier champ vide
+            for no_choix in range(NB_MAX_CHOIX):
+                field_name = "choice_{}".format(no_choix)
+                choice_text = form.cleaned_data[field_name]
+
+                if choice_text:
+                    choice = Choice(
+                        question=question,
+                        choice_text=choice_text
+                    )
+                    choice.save()
+                else:
+                    break
+
+            # Redirection après l'enregistrement pour éviter un nouvel envoi
+            return redirect("polls:confirm_add")
+
+    else:
+        # Création d'un formulaire vide lors d'une requête GET
+        form = QuestionForm()
+
+    # Affichage du formulaire, avec les erreurs éventuelles
+    return render(request, "polls/add.html", {"form": form})
 
 
 def confirm_add(request):
-    # Récupération du libellé de la question, sans les espaces avant et après
-    question_text = request.POST['question_text'].strip()
-
-    if question_text:
-        # Enregistrement de la question
-        question = Question(
-            question_text=question_text,
-            pub_date=timezone.now()
-        )
-        question.save()
-
-        # Enregistrement des choix, jusqu'au premier champ vide
-        for no_choix in range(NB_MAX_CHOIX):
-            nom_champ = 'choix_{}'.format(no_choix)
-            choice_text = request.POST[nom_champ].strip()
-
-            if choice_text:
-                choice = Choice(
-                    question=question,
-                    choice_text=choice_text
-                )
-                choice.save()
-            else:
-                break
-
-        return render(request, 'polls/confirm_add.html')
-
-    else:
-        # Réaffichage du formulaire avec un message d'erreur
-        return render(request, 'polls/add.html', {
-            'error_message': "Vous devez saisir une question.",
-            'liste_no_choix': range(NB_MAX_CHOIX),
-        })
+    return render(request, "polls/confirm_add.html")
