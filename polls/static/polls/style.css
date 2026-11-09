@@ -20,7 +20,8 @@ header {
 .banner {
     display: block;
     width: 100%;
-    height: auto;
+    max-height: 200px;
+    object-fit: cover;
 }
 
 /* Contenu principal */
