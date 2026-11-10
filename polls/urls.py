@@ -1,4 +1,6 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
+
 
 from . import views
 
@@ -6,6 +8,8 @@ app_name = "polls"
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
+    # Page de connexion gérée par Django, avec redirection vers l'accueil
+    path("login/", auth_views.LoginView.as_view(template_name="polls/login.html", next_page="polls:index"), name="login"),
     path("all/", views.AllQuestionsView.as_view(), name="all"),
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),

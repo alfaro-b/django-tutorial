@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Connexion
+{% endblock %}
+
+{% block main %}
+    <h1>Connexion</h1>
+
+    {% if form.errors %}
+        <p>Identifiant ou mot de passe incorrect. Veuillez réessayer.</p>
+    {% endif %}
+
+    {# Formulaire d'authentification fourni par LoginView #}
+    <form method="post" action="{% url 'polls:login' %}">
+        {% csrf_token %}
+
+        <p>
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </p>
+
+        <p>
+            {{ form.password.label_tag }}
+            {{ form.password }}
+        </p>
+
+        <button type="submit">Se connecter</button>
+        
+        {# Conserve une éventuelle URL de destination après connexion #}
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+
+    <p>
+        <a href="{% url 'polls:index' %}">
+            Continuer en tant que visiteur
+        </a>
+    </p>
+{% endblock %}
