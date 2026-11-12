@@ -28,6 +28,17 @@
             <a href="{% url 'polls:login' %}">Se connecter</a>
         {% endif %}
     </header>
+
+    <nav>
+        <a href="{% url 'polls:index' %}">Accueil</a>
+        <a href="{% url 'polls:all' %}">Tous les sondages</a>
+        <a href="{% url 'polls:statistics' %}">Statistiques</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'polls:add' %}">Ajouter une question</a>
+        {% endif %}
+    </nav>
+
     <!-- Contenu spécifique à chaque page -->
     <main>
         {% block main %}
