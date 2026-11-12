@@ -1,17 +1,15 @@
-/* Fond de la page */
+
+/* Fond et typographie générale */
 body {
     margin: 0;
+    min-height: 100vh;
     background: white url("images/background.png") no-repeat;
     background-size: cover;
-    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #243746;
 }
 
-/* Liens */
-li a {
-    color: green;
-}
-
-/* Bandeau */
+/* Bandeau commun */
 header {
     width: 100%;
     overflow: hidden;
@@ -24,10 +22,113 @@ header {
     object-fit: cover;
 }
 
+/* Informations de connexion dans le bandeau */
+header p {
+    margin: 10px 20px;
+    font-size: 14px;
+}
+
+/* Bouton de connexion */
+.btn-login {
+    display: inline-block;
+    margin: 10px 20px;
+    padding: 10px 18px;
+    background-color: #234f78;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn-login:hover {
+    background-color: #3677a5;
+    color: white;
+}
+
+/* Menu de navigation */
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 15px 25px;
+    background-color: #234f78;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
 /* Contenu principal */
 main {
-    margin: 20px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 8px;
+    max-width: 950px;
+    margin: 25px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.93);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Titres */
+h1 {
+    color: #234f78;
+    margin-top: 0;
+}
+
+/* Liens du contenu */
+main a {
+    color: #246b9c;
+    text-decoration: none;
+}
+
+main a:hover {
+    text-decoration: underline;
+}
+
+/* Espacement des éléments de liste */
+main li {
+    margin-bottom: 12px;
+}
+
+/* Boutons */
+button,
+input[type="submit"] {
+    padding: 10px 18px;
+    background-color: #234f78;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #3677a5;
+}
+
+/* Champs des formulaires */
+input[type="text"],
+input[type="password"] {
+    padding: 8px;
+    border: 1px solid #c5d4df;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+/* Adaptation aux petits écrans */
+@media (max-width: 600px) {
+    main {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    nav {
+        gap: 12px;
+        padding: 12px 15px;
+    }
 }
