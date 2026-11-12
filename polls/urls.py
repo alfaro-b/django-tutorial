@@ -18,4 +18,6 @@ urlpatterns = [
     path("statistics/", views.StatisticsView.as_view(), name="statistics"),
     path("add/", views.add, name="add"),
     path("confirm_add/", views.confirm_add, name="confirm_add"),
+    # Déconnexion de l'utilisateur et retour à l'accueil
+    path("logout/", auth_views.LogoutView.as_view(next_page="polls:index"), name="logout"),
 ]
