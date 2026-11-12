@@ -126,6 +126,12 @@ class StatisticsView(generic.TemplateView):
 
 
 def add(request):
+    print("Utilisateur :", request.user)
+    print("Authentifié :", request.user.is_authenticated)
+    # Redirection vers l'accueil si l'utilisateur n'est pas connecté
+    if not request.user.is_authenticated:
+        return redirect("polls:index")
+
     if request.method == "POST":
         # Formulaire lié aux données envoyées par l'utilisateur
         form = QuestionForm(request.POST)
